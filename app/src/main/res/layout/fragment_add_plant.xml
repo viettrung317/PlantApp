@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".fragment.AddPlantFragment">
+
+
+    <ImageView
+        android:id="@+id/imageaddplant"
+        android:layout_width="match_parent"
+        android:layout_height="281dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/adding_new"
+        style="@style/adding_new"
+        app:layout_constraintStart_toStartOf="@+id/imageaddplant"
+        app:layout_constraintTop_toBottomOf="@+id/imageaddplant" />
+
+    <ImageView
+        android:id="@+id/imagebackAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/txtplantName"
+        style="@style/adding_plant"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Tên thực vật"
+        android:textColorHint="#4CAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/txtDescription"
+        style="@style/adding_plant"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:hint="Miêu tả"
+        android:textColorHint="#4CAF50"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtplantName"
+        app:layout_constraintTop_toBottomOf="@+id/txtplantName" />
+
+    <RadioGroup
+        android:id="@+id/rdoSelecttype"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/txtDescription"
+        app:layout_constraintStart_toStartOf="@+id/txtDescription"
+        app:layout_constraintTop_toBottomOf="@+id/txtDescription">
+
+        <RadioButton
+            android:id="@+id/radioButton_cute"
+            style="@style/adding_plant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#Cute" />
+
+        <RadioButton
+            android:id="@+id/radioButton_mini"
+            style="@style/adding_plant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#Mini" />
+
+        <RadioButton
+            android:id="@+id/radioButton_vegetables"
+            style="@style/adding_plant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#Vegetables" />
+
+        <RadioButton
+            android:id="@+id/radioButton_danger"
+            style="@style/adding_plant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#Danger" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btnAddPlant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rectangle_2"
+        android:text="Add plant"
+        app:layout_constraintEnd_toEndOf="@+id/rdoSelecttype"
+        app:layout_constraintStart_toStartOf="@+id/rdoSelecttype"
+        app:layout_constraintTop_toBottomOf="@+id/txtErrorAdd" />
+
+    <TextView
+        android:id="@+id/txtErrorAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#F44336"
+        app:layout_constraintEnd_toEndOf="@+id/rdoSelecttype"
+        app:layout_constraintStart_toStartOf="@+id/rdoSelecttype"
+        app:layout_constraintTop_toBottomOf="@+id/rdoSelecttype" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/btnAddPlant"
+        app:layout_constraintStart_toStartOf="@+id/btnAddPlant"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddPlant" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

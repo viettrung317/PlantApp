@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Onboarding.Onboarding3">
+
+    <View
+        android:id="@+id/group"
+        android:layout_width="255dp"
+        android:layout_height="255.14dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="146dp"
+        android:background="@drawable/group2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:srcCompat="@drawable/rectangle" />
+    <TextView
+        android:id="@+id/identify_pl"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="50dp"
+        android:gravity="center_horizontal|top"
+        android:text="@string/read_many_a"
+        android:textAppearance="@style/identify_pl"
+        app:layout_constraintEnd_toEndOf="@+id/group"
+        app:layout_constraintStart_toStartOf="@+id/group"
+        app:layout_constraintTop_toBottomOf="@+id/group" />
+
+    <TextView
+        android:id="@+id/you_can_ide"
+        android:layout_width="335dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:alpha="0.8"
+        android:gravity="center_horizontal|top"
+        android:text="@string/let_s_learn_"
+        android:textAppearance="@style/you_can_ide"
+        app:layout_constraintEnd_toEndOf="@+id/identify_pl"
+        app:layout_constraintStart_toStartOf="@+id/identify_pl"
+        app:layout_constraintTop_toBottomOf="@+id/identify_pl" />
+
+    <View
+        android:id="@+id/ellipse_2_3"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="130dp"
+        android:background="@drawable/ellipse_2_3"
+        app:layout_constraintEnd_toEndOf="@+id/you_can_ide"
+        app:layout_constraintTop_toBottomOf="@+id/you_can_ide" />
+
+    <View
+        android:id="@+id/ellipse_2_4"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="130dp"
+        android:background="@drawable/ellipse_2_4"
+        app:layout_constraintStart_toStartOf="@+id/you_can_ide"
+        app:layout_constraintTop_toTopOf="@+id/ellipse_2_3" />
+
+    <View
+        android:id="@+id/ellipse_2_5"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ellipse_2_5"
+        app:layout_constraintEnd_toStartOf="@+id/ellipse_2_3"
+        app:layout_constraintStart_toEndOf="@+id/ellipse_2_4"
+        app:layout_constraintTop_toTopOf="@+id/ellipse_2_4" />
+
+    <Button
+        android:id="@+id/btnNextOnboarding3"
+        android:layout_width="329dp"
+        android:layout_height="50dp"
+        android:text="@string/next"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rectangle_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ellipse_2_4" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="129dp"
+        android:layout_marginEnd="29dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/group_4_5" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="@+id/group"
+        app:layout_constraintStart_toStartOf="@+id/group"
+        app:layout_constraintTop_toTopOf="@+id/group"
+        app:srcCompat="@drawable/frame" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4"
+        app:srcCompat="@drawable/ellipse" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:srcCompat="@drawable/group3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
