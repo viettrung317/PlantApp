@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="10dp"
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="1dp"
+        app:cardCornerRadius="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imgArticlesItem"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/group1" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-25dp"
+        android:background="@color/white"
+        android:elevation="2dp"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/txtTitleItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:text="David Austin, Who Breathed Life Into the Rose, Is Dead at 92"
+            android:textColor="#36455A"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="18dp"
+            app:cardCornerRadius="24dp"
+            app:layout_constraintStart_toStartOf="@+id/txtTitleItem"
+            app:layout_constraintTop_toBottomOf="@+id/txtTitleItem"
+            app:layout_constraintBottom_toBottomOf="parent">
+            <ImageView
+                android:id="@+id/imgAvatarItem"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/group5" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/txtNameOwnerItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Nhật trường"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/cardView3"
+            app:layout_constraintTop_toTopOf="@+id/cardView3" />
+
+        <TextView
+            android:id="@+id/txtTimeArticlesItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2019 . 01 .01"
+            android:textColor="#36455A"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/txtNameOwnerItem"
+            app:layout_constraintTop_toBottomOf="@+id/txtNameOwnerItem" />
+
+        <ImageView
+            android:id="@+id/imgLikeArticlesItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView3"
+            app:layout_constraintEnd_toEndOf="@+id/txtTitleItem"
+            app:layout_constraintTop_toTopOf="@+id/cardView3"
+            app:srcCompat="@drawable/heart_0" />
+
+        <ImageView
+            android:id="@+id/imgSaveArticlesItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:background="?android:selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/imgLikeArticlesItem"
+            app:layout_constraintEnd_toStartOf="@+id/imgLikeArticlesItem"
+            app:layout_constraintTop_toTopOf="@+id/imgLikeArticlesItem"
+            app:srcCompat="@drawable/save" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

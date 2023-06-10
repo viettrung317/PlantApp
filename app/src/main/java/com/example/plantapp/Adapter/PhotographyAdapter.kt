@@ -31,7 +31,7 @@ class PhotographyAdapter(private val listPhoto: MutableList<Plant>):
         val currentItem = listPhoto[position]
 
         Picasso.get().load(currentItem.imagePlant).into(holder.img)
-        holder.type.text = currentItem.type
+        holder.type.text = currentItem.type.toString()
     }
 
     // Override phương thức getItemCount

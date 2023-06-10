@@ -38,7 +38,7 @@ class AddPlantFragment : Fragment() {
     private var listPlant:MutableList<Plant> = mutableListOf()
     private var bitmapImages: Bitmap? = null
     private var storage: FirebaseStorage = FirebaseStorage.getInstance()
-    private var type:String="";
+    private var type= mutableListOf<String>();
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,10 +57,10 @@ class AddPlantFragment : Fragment() {
         }
         binding.rdoSelecttype.setOnCheckedChangeListener{ group, checkedId ->
             when(checkedId){
-                R.id.radioButton_cute ->{ type="#Cute" }
-                R.id.radioButton_mini ->{type="#Mini"}
-                R.id.radioButton_vegetables ->{type="#Vegetables"}
-                R.id.radioButton_danger ->{type="#Danger"}
+                R.id.radioButton_cute ->{ type.add("#Cute") }
+                R.id.radioButton_mini ->{type.add("#Mini")}
+                R.id.radioButton_vegetables ->{type.add("#Vegetables")}
+                R.id.radioButton_danger ->{type.add("#Danger")}
             }
         }
         binding.btnAddPlant.setOnClickListener(){

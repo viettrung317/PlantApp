@@ -1,14 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.PlantFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
+        android:id="@+id/imagePlant"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="281dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/imagebackPlant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/imageLikePlant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-50dp"
+        android:layout_marginEnd="4dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ellipse3"
+        app:layout_constraintEnd_toEndOf="@+id/imagePlant"
+        app:layout_constraintTop_toBottomOf="@+id/imagePlant" />
+
+    <ImageView
+        android:id="@+id/btnLikePlant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/group3_5"
+        app:layout_constraintBottom_toBottomOf="@+id/imageLikePlant"
+        app:layout_constraintEnd_toEndOf="@+id/imageLikePlant"
+        app:layout_constraintStart_toStartOf="@+id/imageLikePlant"
+        app:layout_constraintTop_toTopOf="@+id/imageLikePlant" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvTypePlant"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageLikePlant"
+        app:layout_constraintStart_toStartOf="@+id/imagebackPlant"
+        app:layout_constraintTop_toBottomOf="@+id/imagePlant" />
+
+    <TextView
+        android:id="@+id/txtNamePlantFg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+        android:textColor="#36455A"
+        android:textSize="27sp"
+        app:layout_constraintStart_toStartOf="@+id/rcvTypePlant"
+        app:layout_constraintTop_toBottomOf="@+id/rcvTypePlant" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvStar"
+        android:layout_width="90dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/txtNamePlantFg"
+        app:layout_constraintTop_toBottomOf="@+id/txtNamePlantFg" />
+
+    <TextView
+        android:id="@+id/txtStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/rcvStar"
+        app:layout_constraintStart_toEndOf="@+id/rcvStar"
+        app:layout_constraintTop_toTopOf="@+id/rcvStar" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="KINGDOM"
+        android:textColor="#495566"
+        app:layout_constraintStart_toStartOf="@+id/rcvStar"
+        app:layout_constraintTop_toBottomOf="@+id/rcvStar" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="47dp"
+        android:text="FAMILY"
+        android:textColor="#495566"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/txtKingDomPlant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="TextView"
+        android:textColor="#6A6F7D"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/txtFamilyPlant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#6A6F7D"
+        app:layout_constraintBottom_toBottomOf="@+id/txtKingDomPlant"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
+        app:layout_constraintTop_toTopOf="@+id/txtKingDomPlant" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="DESCRIPTION"
+        android:textColor="#495566"
+        app:layout_constraintStart_toStartOf="@+id/txtKingDomPlant"
+        app:layout_constraintTop_toBottomOf="@+id/txtKingDomPlant" />
+
+    <TextView
+        android:id="@+id/txtDescriptionPlant"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="TextView"
+        android:textColor="#6A6F7D"
+        app:layout_constraintEnd_toEndOf="@+id/btnLikePlant"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+</androidx.constraintlayout.widget.ConstraintLayout>

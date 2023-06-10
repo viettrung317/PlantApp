@@ -8,7 +8,6 @@
     android:paddingBottom="10dp"
     android:paddingEnd="30dp"
     android:paddingLeft="20dp"
-    android:paddingRight="30dp"
     android:paddingStart="20dp"
     android:paddingTop="10dp">
 
@@ -19,6 +18,6 @@
         android:layout_weight="1"
         android:orientation="vertical"
         android:textSize="22sp"
-        tools:text="Alphabet text"/>
+        tools:text="Alphabet text" />
 
 </LinearLayout>

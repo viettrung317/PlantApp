@@ -87,6 +87,29 @@ class HomePageFragment : Fragment() {
                 REQUESTCODE_CAMERA
             )
         }
+        binding.btnSpecies.setOnClickListener{
+            val speciesFragment = SpeciesFragment()
+            val fragmentLayout = requireActivity().findViewById<FrameLayout>(com.example.plantapp.R.id.fragmentlayout)
+            fragmentLayout?.let {
+                val fragmentManager = requireActivity().supportFragmentManager.beginTransaction()
+                fragmentManager.replace(it.id, speciesFragment)
+                fragmentManager.addToBackStack(null)
+                fragmentManager.commit()
+            }
+         }
+        binding.btnArticles.setOnClickListener{
+            val bundle=Bundle()
+            bundle.putSerializable("user",user)
+            val listArticlesFragment = ListArticlesFragment()
+            listArticlesFragment.arguments=bundle
+            val fragmentLayout = requireActivity().findViewById<FrameLayout>(com.example.plantapp.R.id.fragmentlayout)
+            fragmentLayout?.let {
+                val fragmentManager = requireActivity().supportFragmentManager.beginTransaction()
+                fragmentManager.replace(it.id, listArticlesFragment)
+                fragmentManager.addToBackStack(null)
+                fragmentManager.commit()
+            }
+        }
 
     }
 

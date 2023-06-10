@@ -4,11 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".fragment.SpeciesFragment">
+    tools:context=".fragment.ListArticlesFragment">
 
     <ImageView
-        android:id="@+id/imageView71"
+        android:id="@+id/imageView73"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
@@ -19,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView81"
+        android:id="@+id/imageView83"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ellipse_1"
@@ -27,24 +26,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView91"
+        android:id="@+id/imageView93"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:src="@drawable/ellipse_2"
-        app:layout_constraintEnd_toEndOf="@+id/imageView71"
-        app:layout_constraintTop_toTopOf="@+id/imageView81" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView73"
+        app:layout_constraintTop_toTopOf="@+id/imageView83" />
 
     <ImageView
-        android:id="@+id/imageView101"
+        android:id="@+id/imageView103"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/species"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView71"
+        android:src="@drawable/articles"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView73"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/txtSeachSpecies"
+        android:id="@+id/txtSeachArticles"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="-25dp"
@@ -52,21 +51,21 @@
         android:background="@drawable/seach"
         android:paddingLeft="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txt11"
-        app:layout_constraintTop_toBottomOf="@+id/imageView71" />
+        app:layout_constraintStart_toStartOf="@+id/txt13"
+        app:layout_constraintTop_toBottomOf="@+id/imageView73" />
 
     <ImageView
-        android:id="@+id/imageView111"
+        android:id="@+id/imageView113"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:src="@drawable/seachforspecies"
-        app:layout_constraintBottom_toBottomOf="@+id/txtSeachSpecies"
-        app:layout_constraintStart_toStartOf="@+id/txtSeachSpecies"
-        app:layout_constraintTop_toTopOf="@+id/txtSeachSpecies" />
+        android:src="@drawable/group4_3"
+        app:layout_constraintBottom_toBottomOf="@+id/txtSeachArticles"
+        app:layout_constraintStart_toStartOf="@+id/txtSeachArticles"
+        app:layout_constraintTop_toTopOf="@+id/txtSeachArticles" />
 
     <TextView
-        android:id="@+id/txt11"
+        android:id="@+id/txt13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -74,13 +73,13 @@
         android:layout_marginTop="100dp"
         android:paddingRight="10dp"
         android:gravity="top"
-        android:text="@string/species1"
+        android:text="Articles"
         android:textAppearance="@style/species"
-        app:layout_constraintStart_toStartOf="@+id/imgExitSpecies"
+        app:layout_constraintStart_toStartOf="@+id/imgExitArticles"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imgExitSpecies"
+        android:id="@+id/imgExitArticles"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
@@ -89,20 +88,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
-        android:id="@+id/rcvSpecies"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvArticles"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="3dp"
         android:layout_marginTop="20dp"
-        app:fastScrollPopupBgColor="@color/teal_200"
-        app:fastScrollPopupTextColor="@android:color/primary_text_dark"
-        app:fastScrollThumbColor="@color/teal_200"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/txtSeachSpecies"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSeachSpecies" />
-
-
+        app:layout_constraintEnd_toEndOf="@+id/txtSeachArticles"
+        app:layout_constraintStart_toStartOf="@+id/txtSeachArticles"
+        app:layout_constraintTop_toBottomOf="@+id/txtSeachArticles" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

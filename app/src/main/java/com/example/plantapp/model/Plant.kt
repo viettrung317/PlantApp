@@ -1,6 +1,6 @@
 package com.example.plantapp.model
 
-data class Plant(var plantName:String?="",var imagePlant:String?="",var type:String?="",var local:String="",var kingDom:String?="",var family: String?="",var description:String?="",var listLike:MutableList<String>?=null,var star: Float?=null,var stars: MutableMap<String, Boolean> = HashMap()):java.io.Serializable {
+data class Plant(var plantName:String?="",var imagePlant:String?="",var type:MutableList<String>?=null,var local:String="",var kingDom:String?="",var family: String?="",var description:String?="",var listLike:MutableList<String>?=null,var star: Float?=null,var stars: MutableMap<String, Boolean> = HashMap()):java.io.Serializable {
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "plantName" to plantName,

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageplantItem"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txtNamePlantItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:text="TextView"
+        android:textColor="#36455A"
+        android:textSize="17sp"
+        app:layout_constraintStart_toEndOf="@+id/imageplantItem"
+        app:layout_constraintTop_toTopOf="@+id/imageplantItem" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="KINGDOM"
+        android:textColor="#A1A8B9"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/txtNamePlantItem"
+        app:layout_constraintTop_toBottomOf="@+id/txtNamePlantItem" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:text="FAMILY"
+        android:textColor="#A1A8B9"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/txtKingDomItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textColor="#495566"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/txtFamilyItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#495566"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="@+id/txtKingDomItem" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="DESCRIPTION"
+        android:textColor="#A1A8B9"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/txtKingDomItem"
+        app:layout_constraintTop_toBottomOf="@+id/txtKingDomItem" />
+
+    <TextView
+        android:id="@+id/txtDescriptionItem"
+        android:layout_width="165dp"
+        android:layout_height="32dp"
+        android:text="TextView"
+        android:textColor="#495566"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageplantItem"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+</androidx.constraintlayout.widget.ConstraintLayout>
