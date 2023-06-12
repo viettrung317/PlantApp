@@ -8,13 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantapp.R
 import com.example.plantapp.fragment.ListArticlesFragment
-import com.example.plantapp.fragment.ListPlantFragment
 import com.example.plantapp.model.Articles
-import com.example.plantapp.model.Plant
 import com.example.plantapp.model.User
 import com.squareup.picasso.Picasso
 
-class ArticlesAdapter(private val user: User,private val listArticles: MutableList<Articles>, private val listener: ListArticlesFragment): RecyclerView.Adapter<ArticlesAdapter.ArticlesViewHolder>() {
+class ArticlesAdapter(private val user: User, private val listArticles: MutableList<Articles>, private val listener: ListArticlesFragment): RecyclerView.Adapter<ArticlesAdapter.ArticlesViewHolder>() {
     private var listSave= mutableListOf<Articles>()
     private var listLike= mutableListOf<Articles>()
     inner class ArticlesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -25,20 +23,10 @@ class ArticlesAdapter(private val user: User,private val listArticles: MutableLi
         val txtTimeArticlesItem = itemView.findViewById<TextView>(R.id.txtTimeArticlesItem)
         val imgSaveArticlesItem = itemView.findViewById<ImageView>(R.id.imgSaveArticlesItem)
         val imgLikeArticlesItem = itemView.findViewById<ImageView>(R.id.imgLikeArticlesItem)
-        init {
-            imgArticlesItem.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(position)
-                }
-            }
-
-
-        }
 
     }
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,like:Boolean)
         fun onClickLike(user: User, listArticles: MutableList<Articles>,articles: Articles, position: Int, like:Boolean)
         fun onClickSave(user: User, listArticles: MutableList<Articles>,articles: Articles, position: Int, save:Boolean)
     }
@@ -111,6 +99,10 @@ class ArticlesAdapter(private val user: User,private val listArticles: MutableLi
 
             }
         }
+        holder.imgArticlesItem.setOnClickListener {
+                listener.onItemClick(position,haveArticlesLike)
+        }
+
     }
 
     override fun getItemCount(): Int {

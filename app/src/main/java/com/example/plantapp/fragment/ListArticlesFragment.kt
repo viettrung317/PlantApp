@@ -8,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantapp.Adapter.ArticlesAdapter
 import com.example.plantapp.databinding.FragmentListArticlesBinding
 import com.example.plantapp.model.Articles
 import com.example.plantapp.model.User
+import com.example.plantapp.viewModel.ListArticlesViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -22,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class ListArticlesFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
+    private lateinit var viewModel: ListArticlesViewModel
     private lateinit var binding: FragmentListArticlesBinding
     private val mAuth: FirebaseAuth = Firebase.auth
     private val data: FirebaseDatabase = Firebase.database
@@ -29,16 +32,23 @@ class ListArticlesFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
     private val userfb: FirebaseUser =mAuth.currentUser!!
     private val uid:String=userfb.uid
     private var listArticles= mutableListOf<Articles>()
-    private var articles:Articles= Articles()
     private lateinit var user: User;
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentListArticlesBinding.inflate(layoutInflater,container,false)
-        getData()
+        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        //getData()
         return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val bundle=arguments
+        user= bundle?.getSerializable("user") as User
+        getData()
     }
     private fun setEvent(user: User, listArticles: MutableList<Articles>) {
         binding.imgExitArticles.setOnClickListener{
@@ -74,42 +84,32 @@ class ListArticlesFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
         })
     }
     private fun getData(){
-        val bundle=arguments
-        user= bundle?.getSerializable("user") as User
-        ref.child("Articles").addValueEventListener(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for(data:DataSnapshot in snapshot.children){
-                    articles=data.getValue(Articles::class.java)!!
-                    listArticles.add(articles)
-                }
-                setData(user,listArticles)
-                setEvent(user,listArticles)
-            }
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
+        viewModel.getListArticles().observe(viewLifecycleOwner) { listArticles1 ->
+            listArticles= listArticles1 as MutableList<Articles>
+            setData(user, listArticles as MutableList<Articles>)
+            setEvent(user,listArticles)
+        }
+        viewModel.loadData()
+     }
     private fun setData(user: User, listArticles: MutableList<Articles>) {
-        binding.rcvArticles.layoutManager=LinearLayoutManager(requireContext())
+        binding.rcvArticles.layoutManager=LinearLayoutManager(context)
         val adapter=ArticlesAdapter(this.user,listArticles,this@ListArticlesFragment)
         binding.rcvArticles.adapter=adapter
-        adapter.notifyDataSetChanged()
     }
 
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int,like: Boolean) {
         val articles = listArticles[position]
         val bundle = Bundle()
         bundle.putSerializable("articles",articles)
         bundle.putInt("positionArticles",position)
-        val plantFragment = PlantFragment()
-        plantFragment.arguments = bundle
+        bundle.putBoolean("isLike",like)
+        val ArticlesFragment = ArticlesFragment()
+        ArticlesFragment.arguments = bundle
         val fragmentLayout = requireActivity().findViewById<FrameLayout>(com.example.plantapp.R.id.fragmentlayout)
         fragmentLayout?.let {
             val fragmentManager = requireActivity().supportFragmentManager.beginTransaction()
-            fragmentManager.replace(it.id, plantFragment)
+            fragmentManager.replace(it.id, ArticlesFragment)
             fragmentManager.addToBackStack(null)
             fragmentManager.commit()
         }
@@ -125,28 +125,42 @@ class ListArticlesFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
                     if (articles.listLikeArticles != null) {
                         listLike = articles.listLikeArticles!!
                     }
-                    user.email?.let { listLike.remove(it) }
+                    user.email?.let { listLike.remove(it)}
                     articles.listLikeArticles=listLike
-                    ref.child("Articles").child(position.toString()).updateChildren(articles.toMap())
+                    ref.child("Articles").child(position.toString()).updateChildren(articles.toMap()).addOnCompleteListener{
+                        if(it.isSuccessful){
+                            if(isAdded){
+                                getData()
+                            }
+                        }
+                    }
 
                 }
             }
-        }else{
-            var listLike= mutableListOf<String>()
-            if(articles.listLikeArticles!=null){
-                listLike=articles.listLikeArticles!!
+        }else {
+            var listLike = mutableListOf<String>()
+            if (articles.listLikeArticles != null) {
+                listLike = articles.listLikeArticles!!
             }
             user.email?.let { listLike.add(it) }
-            articles.listLikeArticles=listLike
-            ref.child("Articles").child(position.toString()).updateChildren(articles.toMap()).addOnCompleteListener {
-                if(it.isSuccessful){
-                    listArticles.add(articles)
-                    user.listArticlesLike=listArticles
-                    ref.child("User").child(uid).updateChildren(user.toMap())
+            articles.listLikeArticles = listLike
+            ref.child("Articles").child(position.toString()).updateChildren(articles.toMap())
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        listArticles.add(articles)
+                        user.listArticlesLike = listArticles
+                        ref.child("User").child(uid).updateChildren(user.toMap())
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    if (isAdded) {
+                                        getData()
+                                    }
+                                }
+                            }
+                    }
                 }
-            }
-
         }
+
     }
 
     override fun onClickSave(user: User, listArticles: MutableList<Articles>, articles: Articles, position: Int, save: Boolean) {
