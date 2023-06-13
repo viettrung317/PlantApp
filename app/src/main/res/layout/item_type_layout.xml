@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="88dp"
+    android:layout_width="99dp"
     android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/txtTypePlant"
-        android:layout_width="78dp"
+        android:layout_width="89dp"
         android:layout_height="23dp"
         android:background="@drawable/bg_text_type"
         android:gravity="center"

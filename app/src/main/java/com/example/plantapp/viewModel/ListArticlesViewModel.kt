@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.plantapp.model.Articles
+import com.example.plantapp.model.Species
 import com.example.plantapp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -19,11 +20,33 @@ class ListArticlesViewModel : ViewModel() {
     private val userfb: FirebaseUser =mAuth.currentUser!!
     private val uid:String=userfb.uid
     private var listArticles: MutableLiveData<List<Articles>> = MutableLiveData()
+    private var listSpecies: MutableLiveData<List<Species>> = MutableLiveData()
+    private var listUser:MutableLiveData<List<User>> = MutableLiveData()
 
     fun getListArticles(): LiveData<List<Articles>> {
         return listArticles
     }
+    fun getListSpecies(): LiveData<List<Species>> {
+        return listSpecies
+    }
+    fun getUser(): LiveData<List<User>>{
+        return listUser
+    }
+    fun loadUser(){
+        ref.child("User").child(uid).addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<User>()
+                val user= snapshot.getValue(User::class.java)!!
+                list.add(user)
+                listUser.postValue(list)
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
     fun loadData() {
         ref.child("Articles").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -35,6 +58,23 @@ class ListArticlesViewModel : ViewModel() {
                     }
                 }
                 listArticles.postValue(list)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+    fun loadSpecies(){
+        ref.child("Data").child("Species").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list1 = mutableListOf<Species>()
+                for (data: DataSnapshot in snapshot.children) {
+                    val species = data.getValue(Species::class.java)
+                    if (species != null) {
+                        list1.add(species)
+                    }
+                }
+                listSpecies.postValue(list1)
             }
 
             override fun onCancelled(error: DatabaseError) {

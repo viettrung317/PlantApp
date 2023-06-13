@@ -12,11 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plantapp.Adapter.PhotographyAdapter
 import com.example.plantapp.databinding.FragmentHomePageBinding
 import com.example.plantapp.model.Plant
 import com.example.plantapp.model.User
+import com.example.plantapp.viewModel.ListArticlesViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -27,12 +29,13 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 
 class HomePageFragment : Fragment() {
+    private lateinit var viewModel: ListArticlesViewModel
     private lateinit var binding: FragmentHomePageBinding
-    private val mAuth:FirebaseAuth= Firebase.auth
-    private val data:FirebaseDatabase=Firebase.database
-    private val ref:DatabaseReference=data.getReference("User")
-    private val userfb: FirebaseUser=mAuth.currentUser!!
-    private val uid:String=userfb.uid
+//    private val mAuth:FirebaseAuth= Firebase.auth
+//    private val data:FirebaseDatabase=Firebase.database
+//    private val ref:DatabaseReference=data.getReference("User")
+//    private val userfb: FirebaseUser=mAuth.currentUser!!
+//    private val uid:String=userfb.uid
     private lateinit var user: User;
     private val REQUESTCODE_CAMERA = 777
 
@@ -43,11 +46,15 @@ class HomePageFragment : Fragment() {
     ): View? {
         binding= FragmentHomePageBinding.inflate(layoutInflater,container,false)
         // Inflate the layout for this fragment
-        binding.imgAvatarUser.setOnClickListener{
-            mAuth.signOut()
-        }
-        getData();
+//        binding.imgAvatarUser.setOnClickListener{
+//            mAuth.signOut()
+//        }
+        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
         return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getData();
     }
     @Override
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -62,18 +69,11 @@ class HomePageFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
     }
     private fun getData(){
-        ref.child(uid).addValueEventListener(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user= snapshot.getValue(User::class.java)!!
-                setData(user);
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-
+        viewModel.getUser().observe(viewLifecycleOwner) { listUser ->
+            user=listUser.get(0)
+            setData(user)
+        }
+        viewModel.loadUser()
     }
 
     private fun setData(user:User) {

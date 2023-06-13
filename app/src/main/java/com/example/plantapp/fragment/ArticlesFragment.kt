@@ -34,6 +34,7 @@ class ArticlesFragment : Fragment() {
     private var listTypeArticles= mutableListOf<String>()
     private var listFollow= mutableListOf<String>()
     private var listFollowing= mutableListOf<String>()
+    private var listArticles= mutableListOf<Articles>()
     private var likeArticles=false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +45,6 @@ class ArticlesFragment : Fragment() {
         getUser()
         return binding.root
     }
-
     private fun getUser() {
         ref.child("User").child(uid).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -73,6 +73,7 @@ class ArticlesFragment : Fragment() {
             listTypeArticles= mutableListOf()
         }
         var linearLayoutManager=LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
+        binding.rcvTypeArticles.layoutManager=linearLayoutManager
         var adapter=TypeAdapter(listTypeArticles)
         binding.rcvTypeArticles.adapter=adapter
         if(articles.titleArticles!=null){
@@ -106,15 +107,17 @@ class ArticlesFragment : Fragment() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     userOwner= snapshot.getValue(User::class.java)!!
                     var isFollow=false
-                    for(follow:String in userOwner.listFollow!!){
-                        if(follow.equals(user.email)){
-                            isFollow=true
+                    if(userOwner.listFollow!=null){
+                        for(follow:String in userOwner.listFollow!!){
+                            if(follow.equals(user.email)){
+                                isFollow=true
+                            }
                         }
                     }
                     if(isFollow){
-                        binding.txtTimeArticles.text="- Unfollow"
+                        binding.btnFollow.text="- Unfollow"
                     }else{
-                        binding.txtTimeArticles.text="+ Follow"
+                        binding.btnFollow.text="+ Follow"
                     }
                     if(user.listArticlesLike!=null){
                         listLikeArticles= user.listArticlesLike!!
@@ -136,17 +139,25 @@ class ArticlesFragment : Fragment() {
         follow: Boolean,
         articles: Articles,
         listLikeArticles: MutableList<Articles>,
-        likeArticles: Boolean
+        likeArticles: Boolean,
     ) {
         var uidOwner:String=""
         if(articles.uidOwner!=null){
             uidOwner=articles.uidOwner!!
         }
-        binding.imageLikeArticles.setOnClickListener{
-            if (likeArticles) {
-                deletelike(user,listLikeArticles,articles,positionArticles,likeArticles)
+        binding.imagebackArticles.setOnClickListener{
+            if (activity?.supportFragmentManager?.backStackEntryCount!! > 0) {
+                activity?.supportFragmentManager?.popBackStack()
             } else {
-                addLike(user)
+                // FragmentManager không có Fragment nào trên Backstack, không gọi onBackPressed để tránh đóng Activity.
+                // Thực hiện hành động khác nếu cần thiết.
+            }
+        }
+        binding.imageLikeArticles.setOnClickListener{
+            if(likeArticles){
+                dislike(user,listLikeArticles,articles,positionArticles,likeArticles,follow)
+            }else{
+                like(user,listLikeArticles,articles,positionArticles,likeArticles,follow)
             }
         }
 
@@ -158,10 +169,10 @@ class ArticlesFragment : Fragment() {
                 listFollow=userOwner.listFollow!!
                 user.email?.let {listFollow.remove(it)}
                 userOwner.listFollow=listFollow
-                ref.child(uid).updateChildren(user.toMap()).addOnCompleteListener{
+                ref.child("User").child(uid).updateChildren(user.toMap()).addOnCompleteListener{
                     if(it.isSuccessful){
-                        ref.child(uidOwner).updateChildren(userOwner.toMap()).addOnCompleteListener{
-                            binding.txtTimeArticles.text="- Unfollow"
+                        ref.child("User").child(uidOwner).updateChildren(userOwner.toMap()).addOnCompleteListener{
+                            binding.btnFollow.text="+ Follow"
                         }
                     }
                 }
@@ -176,10 +187,10 @@ class ArticlesFragment : Fragment() {
                 }
                 listFollow.add(user.email!!)
                 userOwner.listFollow=listFollow
-                ref.child(uid).updateChildren(user.toMap()).addOnCompleteListener{
+                ref.child("User").child(uid).updateChildren(user.toMap()).addOnCompleteListener{
                     if(it.isSuccessful){
-                        ref.child(uidOwner).updateChildren(userOwner.toMap()).addOnCompleteListener{
-                            binding.txtTimeArticles.text="+ Follow"
+                        ref.child("User").child(uidOwner).updateChildren(userOwner.toMap()).addOnCompleteListener{
+                            binding.btnFollow.text="- Unfollow"
                         }
                     }
                 }
@@ -188,60 +199,60 @@ class ArticlesFragment : Fragment() {
 
     }
 
-    private fun addLike(user: User) {
-
+    private fun like(user: User, listLikeArticles: MutableList<Articles>, articles: Articles, positionArticles: Int, likeArticles: Boolean, follow: Boolean) {
+        var listLike = mutableListOf<String>()
+        if (articles.listLikeArticles != null) {
+            listLike = articles.listLikeArticles!!
+        }
+        user.email?.let { listLike.add(it) }
+        articles.listLikeArticles = listLike
+        ref.child("Articles").child(positionArticles.toString()).updateChildren(articles.toMap())
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    listLikeArticles.add(articles)
+                    user.listArticlesLike = listLikeArticles
+                    ref.child("User").child(uid).updateChildren(user.toMap())
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                if (isAdded) {
+                                    binding.imageLikeArticles.setImageResource(R.drawable.ellipse3)
+                                    setEvents(user,userOwner,follow,articles,listLikeArticles,true)
+                                }
+                            }
+                        }
+                }
+            }
     }
 
-    private fun deletelike(
+    private fun dislike(
         user: User,
         listLikeArticles: MutableList<Articles>,
         articles: Articles,
         positionArticles: Int,
-        likeArticles: Boolean
+        likeArticles: Boolean,
+        isFollow: Boolean
     ) {
-        if(likeArticles){
-            listLikeArticles.remove(articles)
-            user.listArticlesLike=listLikeArticles
-            ref.child("User").child(uid).updateChildren(user.toMap()).addOnCompleteListener{
-                if(it.isSuccessful){
-                    var listLike= mutableListOf<String>()
-                    if (articles.listLikeArticles != null) {
-                        listLike = articles.listLikeArticles!!
-                    }
-                    user.email?.let { listLike.remove(it)}
-                    articles.listLikeArticles=listLike
-                    ref.child("Articles").child(positionArticles.toString()).updateChildren(articles.toMap()).addOnCompleteListener{
-                        if(it.isSuccessful){
-                            if(isAdded){
-                                getUser()
+        listLikeArticles.remove(articles)
+        user.listArticlesLike = listLikeArticles
+        ref.child("User").child(uid).updateChildren(user.toMap()).addOnCompleteListener {
+            if (it.isSuccessful) {
+                var listLike = mutableListOf<String>()
+                if (articles.listLikeArticles != null) {
+                    listLike = articles.listLikeArticles!!
+                }
+                user.email?.let { listLike.remove(it) }
+                articles.listLikeArticles = listLike
+                ref.child("Articles").child(positionArticles.toString())
+                    .updateChildren(articles.toMap()).addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            if (isAdded) {
+                                binding.imageLikeArticles.setImageResource(R.drawable.ellipse4)
+                                setEvents(user,userOwner,isFollow,articles,listLikeArticles,false)
                             }
                         }
                     }
 
-                }
             }
-        }else {
-            var listLike = mutableListOf<String>()
-            if (articles.listLikeArticles != null) {
-                listLike = articles.listLikeArticles!!
-            }
-            user.email?.let { listLike.add(it) }
-            articles.listLikeArticles = listLike
-            ref.child("Articles").child(positionArticles.toString()).updateChildren(articles.toMap())
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        listLikeArticles.add(articles)
-                        user.listArticlesLike = listLikeArticles
-                        ref.child("User").child(uid).updateChildren(user.toMap())
-                            .addOnCompleteListener {
-                                if (it.isSuccessful) {
-                                    if (isAdded) {
-                                        getUser()
-                                    }
-                                }
-                            }
-                    }
-                }
         }
     }
 }

@@ -5,44 +5,48 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.example.plantapp.R
+import com.example.plantapp.databinding.FragmentProfileBinding
+import com.example.plantapp.model.User
+import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.squareup.picasso.Picasso
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
+    private lateinit var viewModel:ListArticlesViewModel
+    private lateinit var binding:FragmentProfileBinding
+    private var address:String=""
+    private lateinit var user: User;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        binding=FragmentProfileBinding.inflate(layoutInflater,container,false)
+        viewModel= ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        return binding.root
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val bundle=arguments
+        address= bundle?.get("address") as String
+        getData()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun getData() {
+        viewModel.getUser().observe(viewLifecycleOwner) { listUser ->
+            user=listUser.get(0)
+            setData(user)
+        }
+        viewModel.loadUser()
     }
+
+    private fun setData(user: User) {
+        binding.txtNameProFile.text=user.userName
+        binding.txtLocation.text=address
+        Picasso.get().load(user.imagesource).into(binding.imgAvatarUserProFile)
+    }
+
+
 }

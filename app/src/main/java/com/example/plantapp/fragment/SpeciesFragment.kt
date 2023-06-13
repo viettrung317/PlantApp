@@ -9,18 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plantapp.Adapter.SpeciesAdapter
 //import com.example.plantapp.Adapter.SpeciesAdapter
 import com.example.plantapp.databinding.FragmentSpeciesBinding
+import com.example.plantapp.model.Articles
 import com.example.plantapp.model.Species
+import com.example.plantapp.model.User
+import com.example.plantapp.viewModel.ListArticlesViewModel
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class SpeciesFragment : Fragment(), SpeciesAdapter.OnItemClickListener {
+    private lateinit var viewModel: ListArticlesViewModel
     private lateinit var binding: FragmentSpeciesBinding
     private val data: FirebaseDatabase = Firebase.database
     private val ref: DatabaseReference =data.getReference("Data")
@@ -30,9 +35,14 @@ class SpeciesFragment : Fragment(), SpeciesAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentSpeciesBinding.inflate(layoutInflater,container,false)
-        getListData()
+        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
         return binding.root
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getListData()
+    }
+
 
     private fun setEvents(listSpecies: MutableList<Species>) {
         binding.imgExitSpecies.setOnClickListener{
@@ -69,34 +79,20 @@ class SpeciesFragment : Fragment(), SpeciesAdapter.OnItemClickListener {
     }
 
     private fun getListData() {
-        ref.child("Species").addValueEventListener(object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (dataSnapshot in snapshot.getChildren()) {
-                    val species: Species? = dataSnapshot.getValue(Species::class.java)
-                    if (species != null) {
-                        listSpecies.add(species)
-                    }
-                }
-                //sắp xếp danh sách theo bảng chữ cái
-                val sortedList = listSpecies.sortedBy { it.nameSpecies }
-                setData(sortedList as MutableList<Species>)
-                setEvents(sortedList)
-            }
-
-            private fun setData(listSpecies: MutableList<Species>) {
-                // Khởi tạo RecyclerView
-                binding.rcvSpecies.layoutManager = LinearLayoutManager(requireContext())
-                // Khởi tạo adapter và vẽ lên RecyclerView
-                val adapter = SpeciesAdapter(listSpecies,this@SpeciesFragment)
-                binding.rcvSpecies.adapter = adapter
-            }
-
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
+        viewModel.getListSpecies().observe(viewLifecycleOwner) { listSpecise1 ->
+            listSpecies= listSpecise1 as MutableList<Species>
+            val sortedList = listSpecies.sortedBy { it.nameSpecies }
+            setData(sortedList as MutableList<Species>)
+            setEvents(sortedList)
+        }
+        viewModel.loadSpecies()
+    }
+    private fun setData(listSpecies: MutableList<Species>) {
+        // Khởi tạo RecyclerView
+        binding.rcvSpecies.layoutManager = LinearLayoutManager(requireContext())
+        // Khởi tạo adapter và vẽ lên RecyclerView
+        val adapter = SpeciesAdapter(listSpecies, this@SpeciesFragment)
+        binding.rcvSpecies.adapter = adapter
     }
 
     override fun onItemClick(position: Int) {

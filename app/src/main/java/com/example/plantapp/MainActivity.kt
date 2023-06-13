@@ -1,15 +1,23 @@
 package com.example.plantapp
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.text.intl.Locale
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.plantapp.Onboarding.Onboarding1
 import com.example.plantapp.account.LoginActivity
@@ -18,6 +26,12 @@ import com.example.plantapp.fragment.AddPlantFragment
 import com.example.plantapp.fragment.HomePageFragment
 import com.example.plantapp.fragment.ProfileFragment
 import com.example.plantapp.model.User
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -37,6 +51,8 @@ class MainActivity : AppCompatActivity() {
     private val uid:String=userfb.uid
     private lateinit var user:User;
     private val REQUESTCODE_CAMERA = 999
+    private val REQUEST_CODE_GPS_PERMISSION = 100
+    private var address:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +72,61 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(HomePageFragment())
         getUser()
     }
+    override fun onResume() {
+        super.onResume()
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Yêu cầu quyền truy cập vị trí của người dùng nếu chưa được cấp
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                REQUEST_CODE_GPS_PERMISSION)
+        } else {
+            // Lấy tọa độ hiện tại nếu đã được cấp quyền truy cập vị trí
+            getCurrentLocation()
+        }
+    }
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CODE_GPS_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Nếu người dùng cấp quyền truy cập vị trí, lấy tọa độ hiện tại
+                getCurrentLocation()
+            } else {
+                // Nếu người dùng từ chối cấp quyền truy cập vị trí, hiển thị thông báo hoặc xử lý khác
+                Toast.makeText(this, "Không thể lấy tọa độ hiện tại vì quyền truy cập vị trí bị từ chối", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun getCurrentLocation() {
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+            if (location != null) {
+                address=getAddress(location.latitude,location.longitude)
+
+                // Cập nhật UI của bạn với dữ liệu về vị trí mới nhất
+            }
+        }
+    }
+
+    private fun getAddress(latitude: Double, longitude: Double): String {
+        val geocoder = Geocoder(this, java.util.Locale.getDefault())
+        val addresses: List<Address> = geocoder.getFromLocation(latitude, longitude, 1) as List<Address>
+
+        if (addresses.isNotEmpty()) {
+            val address: Address = addresses[0]
+            return address.getAddressLine(0) // Trả về địa chỉ đầy đủ
+        }
+        return "" // Trả về chuỗi rỗng nếu không có kết quả
+    }
+
 
     private fun getUser() {
         ref.child(uid).addValueEventListener(object : ValueEventListener {
@@ -69,7 +140,7 @@ class MainActivity : AppCompatActivity() {
                     when(it.itemId){
                         R.id.menu_home -> replaceFragment(HomePageFragment())
                         R.id.menu_add -> openCamera()
-                        R.id.menu_profile -> replaceFragment(ProfileFragment())
+                        R.id.menu_profile -> openProfile(address)
                         else ->{
 
                         }
@@ -109,6 +180,18 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction()
             .replace(R.id.fragmentlayout, addPlantFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    private fun openProfile(string: String) {
+        val bundle = Bundle()
+        bundle.putString("address",string)
+        val profileFragment = ProfileFragment()
+        profileFragment.arguments = bundle
+
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragmentlayout, profileFragment)
             .addToBackStack(null)
             .commit()
     }
