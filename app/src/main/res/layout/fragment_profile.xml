@@ -101,16 +101,18 @@
         android:id="@+id/NavigationViewProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="start"
         android:background="@color/background"
         android:foregroundGravity="top"
-        app:itemHorizontalPadding="0dp"
         app:itemBackground="@drawable/navigation_item_background"
+        app:itemHorizontalPadding="0dp"
+        app:labelVisibilityMode="labeled"
         app:itemIconTint="@color/color_profile_navigation"
         app:itemTextColor="@color/color_profile_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView07"
-        app:menu="@menu/profile_navigation"
-        tools:layout_editor_absoluteX="16dp" />
+        app:menu="@menu/profile_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

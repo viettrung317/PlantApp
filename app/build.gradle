@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     //fastscroll
     implementation 'com.simplecityapps:recyclerview-fastscroll:2.0.1'
-    //import API Google maps
+    //import play-services-maps
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
 

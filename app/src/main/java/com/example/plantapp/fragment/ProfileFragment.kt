@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.plantapp.R
 import com.example.plantapp.databinding.FragmentProfileBinding
@@ -37,6 +38,7 @@ class ProfileFragment : Fragment() {
     private fun getData() {
         viewModel.getUser().observe(viewLifecycleOwner) { listUser ->
             user=listUser.get(0)
+            replaceFragment(ArticlesProfileFragment())
             setData(user)
         }
         viewModel.loadUser()
@@ -46,6 +48,26 @@ class ProfileFragment : Fragment() {
         binding.txtNameProFile.text=user.userName
         binding.txtLocation.text=address
         Picasso.get().load(user.imagesource).into(binding.imgAvatarUserProFile)
+        binding.NavigationViewProfile.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.menu_articles -> replaceFragment(ArticlesProfileFragment())
+                R.id.menu_species -> replaceFragment(SpeciesProfileFragment())
+                else ->{
+
+                }
+            }
+            true
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val fragmentLayout = requireActivity().findViewById<FrameLayout>(com.example.plantapp.R.id.fragmentlayoutProfile)
+        fragmentLayout?.let {
+            val fragmentManager = requireActivity().supportFragmentManager.beginTransaction()
+            fragmentManager.replace(it.id, fragment)
+            fragmentManager.addToBackStack(null)
+            fragmentManager.commit()
+        }
     }
 
 
