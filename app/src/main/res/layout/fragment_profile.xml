@@ -105,7 +105,6 @@
         android:layout_gravity="start"
         android:background="@color/background"
         android:foregroundGravity="top"
-        app:itemBackground="@drawable/navigation_item_background"
         app:itemHorizontalPadding="0dp"
         app:labelVisibilityMode="labeled"
         app:itemIconTint="@color/color_profile_navigation"
@@ -114,5 +113,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView07"
         app:menu="@menu/profile_navigation" />
+
+    <ImageView
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="23dp"
+        android:src="@drawable/ic_baseline_power_settings_new_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

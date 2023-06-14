@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +23,7 @@ class ArticlesProfileFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
     private lateinit var viewModel: ListArticlesViewModel
     private lateinit var binding:FragmentArticlesProfileBinding
     private var listArticles= mutableListOf<Articles>()
+    private var listArticlesUser= mutableListOf<Articles>()
     private lateinit var user: User;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,17 +62,20 @@ class ArticlesProfileFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
                 if (selecterAdapter.getItem(i)?.item.equals("Your articles")) {
                         if(user.listMyArticles!=null){
-                            getlistArticles(user.listMyArticles!!)
+                            listArticlesUser=user.listMyArticles!!
+                            getlistArticles(listArticlesUser)
                         }
                 } else if (selecterAdapter.getItem(i)?.item
                         .equals("Articles liked")
                 ) {
                     if(user.listArticlesLike!=null){
-                        getlistArticles(user.listArticlesLike!!)
+                        listArticlesUser=user.listArticlesLike!!
+                        getlistArticles(listArticlesUser)
                     }
                 } else if (selecterAdapter.getItem(i)?.item.equals("Articles saved")) {
                     if(user.listArticlesSave!=null){
-                        getlistArticles(user.listArticlesSave!!)
+                        listArticlesUser=user.listArticlesSave!!
+                        getlistArticles(listArticlesUser)
                     }
                 }
             }

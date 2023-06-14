@@ -3,7 +3,6 @@ package com.example.plantapp.fragment
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -11,32 +10,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.plantapp.Adapter.ListTypeAdapter
 import com.example.plantapp.Adapter.PhotographyAdapter
+import com.example.plantapp.R
 import com.example.plantapp.databinding.FragmentHomePageBinding
 import com.example.plantapp.model.Plant
+import com.example.plantapp.model.Type
 import com.example.plantapp.model.User
 import com.example.plantapp.viewModel.ListArticlesViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 
 class HomePageFragment : Fragment() {
     private lateinit var viewModel: ListArticlesViewModel
     private lateinit var binding: FragmentHomePageBinding
-//    private val mAuth:FirebaseAuth= Firebase.auth
-//    private val data:FirebaseDatabase=Firebase.database
-//    private val ref:DatabaseReference=data.getReference("User")
-//    private val userfb: FirebaseUser=mAuth.currentUser!!
-//    private val uid:String=userfb.uid
+
     private lateinit var user: User;
+    private var listPlant= mutableListOf<Plant>()
+    private var listTypePlant= mutableListOf<Type>()
     private val REQUESTCODE_CAMERA = 777
 
 
@@ -46,9 +40,6 @@ class HomePageFragment : Fragment() {
     ): View? {
         binding= FragmentHomePageBinding.inflate(layoutInflater,container,false)
         // Inflate the layout for this fragment
-//        binding.imgAvatarUser.setOnClickListener{
-//            mAuth.signOut()
-//        }
         viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
         return binding.root
     }
@@ -71,14 +62,19 @@ class HomePageFragment : Fragment() {
     private fun getData(){
         viewModel.getUser().observe(viewLifecycleOwner) { listUser ->
             user=listUser.get(0)
-            setData(user)
+            viewModel.getPlant().observe(viewLifecycleOwner){listpl->
+                listPlant=listpl as MutableList<Plant>
+                setData(user,listPlant)
+            }
+            viewModel.loadSpecies()
         }
         viewModel.loadUser()
     }
 
-    private fun setData(user:User) {
+    private fun setData(user: User, listPlant: MutableList<Plant>) {
         binding.helloUsername.setText("Hello "+user.userName)
         Picasso.get().load(user.imagesource).into(binding.imgAvatarUser);
+        getListType(listPlant)
         getListPhoto(user.listPhotoGraphy);
         binding.btnAdd.setOnClickListener{
             val camera = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -110,6 +106,41 @@ class HomePageFragment : Fragment() {
                 fragmentManager.commit()
             }
         }
+
+    }
+
+    private fun getListType(listPlant: MutableList<Plant>) {
+        val miniPlants = mutableListOf<Plant>()
+        val cutePlants = mutableListOf<Plant>()
+        val dangerPlants = mutableListOf<Plant>()
+        val decorationPlants = mutableListOf<Plant>()
+        val vegetablePlants = mutableListOf<Plant>()
+        for (plant in listPlant) {
+            if ("mini" in plant.type.orEmpty()) {
+                miniPlants.add(plant)
+            }
+            if ("cute" in plant.type.orEmpty()) {
+                cutePlants.add(plant)
+            }
+            if ("danger" in plant.type.orEmpty()) {
+                dangerPlants.add(plant)
+            }
+            if ("decoration" in plant.type.orEmpty()) {
+                decorationPlants.add(plant)
+            }
+            if ("vegetable" in plant.type.orEmpty()) {
+                vegetablePlants.add(plant)
+            }
+        }
+
+        listTypePlant.add(Type("Mini", R.drawable.mini,miniPlants.size))
+        listTypePlant.add(Type("Cute", R.drawable.cute,cutePlants.size))
+        listTypePlant.add(Type("Danger", R.drawable.danger,dangerPlants.size))
+        listTypePlant.add(Type("Decoration", R.drawable.deco,decorationPlants.size))
+        listTypePlant.add(Type("Vegetable", R.drawable.vegetable,vegetablePlants.size))
+        val linearLayoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding.rcvPlantTypes.layoutManager=linearLayoutManager
+        binding.rcvPlantTypes.adapter=listTypePlant?.let { ListTypeAdapter(it) }
 
     }
 

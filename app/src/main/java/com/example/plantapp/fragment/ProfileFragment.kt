@@ -1,5 +1,6 @@
 package com.example.plantapp.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,15 +9,20 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.plantapp.R
+import com.example.plantapp.account.LoginActivity
 import com.example.plantapp.databinding.FragmentProfileBinding
 import com.example.plantapp.model.User
 import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 
 
 class ProfileFragment : Fragment() {
     private lateinit var viewModel:ListArticlesViewModel
     private lateinit var binding:FragmentProfileBinding
+    private val mAuth: FirebaseAuth = Firebase.auth
     private var address:String=""
     private lateinit var user: User;
     override fun onCreateView(
@@ -57,6 +63,12 @@ class ProfileFragment : Fragment() {
                 }
             }
             true
+        }
+        binding.btnLogout.setOnClickListener{
+            mAuth.signOut()
+            val intent = Intent(requireActivity(), LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 
