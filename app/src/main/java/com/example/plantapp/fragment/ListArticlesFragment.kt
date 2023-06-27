@@ -14,7 +14,7 @@ import com.example.plantapp.Adapter.ArticlesAdapter
 import com.example.plantapp.databinding.FragmentListArticlesBinding
 import com.example.plantapp.model.Articles
 import com.example.plantapp.model.User
-import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.example.plantapp.viewModel.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -24,7 +24,7 @@ import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class ListArticlesFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
-    private lateinit var viewModel: ListArticlesViewModel
+    private lateinit var viewModel: ViewModel
     private lateinit var binding: FragmentListArticlesBinding
     private val mAuth: FirebaseAuth = Firebase.auth
     private val data: FirebaseDatabase = Firebase.database
@@ -40,7 +40,7 @@ class ListArticlesFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentListArticlesBinding.inflate(layoutInflater,container,false)
-        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         //getData()
         return binding.root
     }

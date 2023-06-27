@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,11 +20,11 @@ import com.example.plantapp.databinding.FragmentHomePageBinding
 import com.example.plantapp.model.Plant
 import com.example.plantapp.model.Type
 import com.example.plantapp.model.User
-import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.example.plantapp.viewModel.ViewModel
 import com.squareup.picasso.Picasso
 
 class HomePageFragment : Fragment() {
-    private lateinit var viewModel: ListArticlesViewModel
+    private lateinit var viewModel: ViewModel
     private lateinit var binding: FragmentHomePageBinding
 
     private lateinit var user: User;
@@ -40,7 +39,7 @@ class HomePageFragment : Fragment() {
     ): View? {
         binding= FragmentHomePageBinding.inflate(layoutInflater,container,false)
         // Inflate the layout for this fragment
-        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -8,17 +8,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.plantapp.Adapter.ArticlesAdapter
 import com.example.plantapp.Adapter.PlantAdapter
 import com.example.plantapp.Adapter.SelecterAdapter
 import com.example.plantapp.R
-import com.example.plantapp.databinding.FragmentArticlesProfileBinding
 import com.example.plantapp.databinding.FragmentSpeciesProfileBinding
 import com.example.plantapp.model.*
-import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.example.plantapp.viewModel.ViewModel
 
 class SpeciesProfileFragment : Fragment() {
-    private lateinit var viewModel: ListArticlesViewModel
+    private lateinit var viewModel: ViewModel
     private lateinit var binding: FragmentSpeciesProfileBinding
     private var listPlant= mutableListOf<Plant>()
     private lateinit var user: User;
@@ -28,7 +26,7 @@ class SpeciesProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding= FragmentSpeciesProfileBinding.inflate(layoutInflater,container,false)
-        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -14,7 +14,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class ListArticlesViewModel : ViewModel() {
+class ViewModel : ViewModel() {
     private val mAuth: FirebaseAuth = Firebase.auth
     private val data: FirebaseDatabase = Firebase.database
     private val ref: DatabaseReference =data.getReference()

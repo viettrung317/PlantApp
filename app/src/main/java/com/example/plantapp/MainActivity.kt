@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity() {
     private var isFirstRun = true
     private val data: FirebaseDatabase =Firebase.database
     private val ref: DatabaseReference =data.getReference("User")
-    private val userfb: FirebaseUser =auth.currentUser!!
-    private val uid:String=userfb.uid
+    private lateinit var userfb: FirebaseUser;
+    private lateinit var uid:String;
     private lateinit var user:User;
     private val REQUESTCODE_CAMERA = 999
     private val REQUEST_CODE_GPS_PERMISSION = 100
@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
             editor.apply()
         }
         replaceFragment(HomePageFragment())
-        getUser()
     }
     override fun onResume() {
         super.onResume()
@@ -219,6 +218,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity,LoginActivity::class.java)
             startActivity(intent)
             finish()
+        }else{
+            userfb=auth.currentUser!!
+            uid=userfb.uid
+            getUser()
         }
     }
 

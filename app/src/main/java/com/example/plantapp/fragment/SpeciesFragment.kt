@@ -11,21 +11,18 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.plantapp.Adapter.SpeciesAdapter
 //import com.example.plantapp.Adapter.SpeciesAdapter
 import com.example.plantapp.databinding.FragmentSpeciesBinding
-import com.example.plantapp.model.Articles
 import com.example.plantapp.model.Species
-import com.example.plantapp.model.User
-import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.example.plantapp.viewModel.ViewModel
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class SpeciesFragment : Fragment(), SpeciesAdapter.OnItemClickListener {
-    private lateinit var viewModel: ListArticlesViewModel
+    private lateinit var viewModel: ViewModel
     private lateinit var binding: FragmentSpeciesBinding
     private val data: FirebaseDatabase = Firebase.database
     private val ref: DatabaseReference =data.getReference("Data")
@@ -35,7 +32,7 @@ class SpeciesFragment : Fragment(), SpeciesAdapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentSpeciesBinding.inflate(layoutInflater,container,false)
-        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

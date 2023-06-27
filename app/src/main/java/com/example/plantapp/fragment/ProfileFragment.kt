@@ -12,7 +12,7 @@ import com.example.plantapp.R
 import com.example.plantapp.account.LoginActivity
 import com.example.plantapp.databinding.FragmentProfileBinding
 import com.example.plantapp.model.User
-import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.example.plantapp.viewModel.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso
 
 
 class ProfileFragment : Fragment() {
-    private lateinit var viewModel:ListArticlesViewModel
+    private lateinit var viewModel:ViewModel
     private lateinit var binding:FragmentProfileBinding
     private val mAuth: FirebaseAuth = Firebase.auth
     private var address:String=""
@@ -31,7 +31,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentProfileBinding.inflate(layoutInflater,container,false)
-        viewModel= ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        viewModel= ViewModelProvider(this).get(ViewModel::class.java)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

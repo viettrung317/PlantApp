@@ -10,12 +10,14 @@
     <ImageView
         android:id="@+id/imageView7"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="65dp"
         android:scaleType="centerCrop"
         android:src="@drawable/rectangle_2_16"
+        app:layout_constraintBottom_toTopOf="@+id/btn_species"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,11 +120,11 @@
         android:layout_height="69dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/rectangle_6"
         android:elevation="19dp"
-        app:layout_constraintStart_toStartOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintBottom_toTopOf="@+id/plant_types"
+        app:layout_constraintStart_toStartOf="@+id/textView2">
 
         <ImageView
             android:id="@+id/imageView13"
@@ -235,40 +237,40 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
         android:gravity="top"
         android:text="@string/plant_types"
         android:textAppearance="@style/plant_types"
-        app:layout_constraintStart_toStartOf="@+id/btn_add"
-        app:layout_constraintTop_toBottomOf="@+id/btn_add" />
+        app:layout_constraintBottom_toTopOf="@+id/rcvPlantTypes"
+        app:layout_constraintStart_toStartOf="@+id/btn_add" />
 
     <TextView
         android:id="@+id/textView4"
+        style="@style/plant_types"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginBottom="16dp"
         android:text="Photography"
-        style="@style/plant_types"
-        app:layout_constraintStart_toStartOf="@+id/rcvPlantTypes"
-        app:layout_constraintTop_toBottomOf="@+id/rcvPlantTypes" />
+        app:layout_constraintBottom_toTopOf="@+id/rcvPhoto"
+        app:layout_constraintStart_toStartOf="@+id/rcvPlantTypes" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvPlantTypes"
         android:layout_width="0dp"
         android:layout_height="160dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="@+id/btn_articles"
-        app:layout_constraintStart_toStartOf="@+id/plant_types"
-        app:layout_constraintTop_toBottomOf="@+id/plant_types" />
+        app:layout_constraintStart_toStartOf="@+id/plant_types" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvPhoto"
         android:layout_width="0dp"
         android:layout_height="144dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/rcvPlantTypes"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="@+id/textView4" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

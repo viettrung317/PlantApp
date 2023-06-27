@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +15,10 @@ import com.example.plantapp.databinding.FragmentArticlesProfileBinding
 import com.example.plantapp.model.Articles
 import com.example.plantapp.model.Selecter
 import com.example.plantapp.model.User
-import com.example.plantapp.viewModel.ListArticlesViewModel
+import com.example.plantapp.viewModel.ViewModel
 
 class ArticlesProfileFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
-    private lateinit var viewModel: ListArticlesViewModel
+    private lateinit var viewModel: ViewModel
     private lateinit var binding:FragmentArticlesProfileBinding
     private var listArticles= mutableListOf<Articles>()
     private var listArticlesUser= mutableListOf<Articles>()
@@ -31,7 +29,7 @@ class ArticlesProfileFragment : Fragment(),ArticlesAdapter.OnItemClickListener {
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentArticlesProfileBinding.inflate(layoutInflater,container,false)
-        viewModel = ViewModelProvider(this).get(ListArticlesViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
